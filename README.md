@@ -1,7 +1,7 @@
 # Raudi_formation
 Projet en collaboration avec Steven BRAVO 
 
-Front 
+**Front Fonctionalité**
 Accès invité
 Page d’accueil (Route « /accueil ») > Liste des modèles proposés
 Page détails modèle (Attention modification des options impossible)
@@ -11,7 +11,7 @@ Page compte rendu gain total par mois
 Connecté en tant que client
 Fonctionnalités supplémentaires
 
-Back
+**Back Fonctionalité**
 GET AllModeles 
 GET ModeleByID (voir Sequelize)
 BDD  Rôle « comptable »
@@ -35,8 +35,8 @@ user => {
     nom
     prenom
     email
-    mdp
-    role
+    mdp = hash
+    role = comptable, role_admin, role_user
 }
 
 modele => {
@@ -45,6 +45,17 @@ modele => {
     moteur
     nb_place 
     taille
+    prix
 }
 
-option => 
+option => {
+    nom
+    description
+    prix
+}
+
+commande => {
+    id_user
+    id_modele
+    total
+}
