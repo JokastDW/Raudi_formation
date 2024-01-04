@@ -57,5 +57,6 @@ option => {
 commande => {
     id_user
     id_modele
+    acheté
     total
 }
