@@ -13,13 +13,13 @@ const Modele = sequelize.define('modele', {
     nom: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique : true,
         validate :{
-            isAlpha:{msg : "Votre nom ne doit contenir que des lettres"}
+            isAlphanumeric:{msg : "Votre nom ne doit contenir que des lettres ou chiffres"}
         }
     },
     moteur: {
         type: DataTypes.STRING,
-        unique: true,
         allowNull: false,
         validate :{
             isIn : {args : [['diesel', 'essence', 'electrique', 'hybride']],
