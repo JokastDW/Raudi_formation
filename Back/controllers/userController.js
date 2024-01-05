@@ -60,3 +60,25 @@ exports.UserId= async(req, res)=>{
     const users = await User.findByPk(parseInt(req.params.id))
     res.status(200).json(users)
 }
+
+exports.Login = async (req, res) =>{
+    try {
+        const { email, password } = req.body;
+        const user = await User.findOne({ where: { email } });
+        if (!user) {
+          return res.status(401).json({ error: 'Email ou mot de passe incorrect.' });
+        }
+  
+        const passwordMatch = await bcrypt.compare(password, user.password);
+        if (!passwordMatch) {
+          return res.status(401).json({ error: 'Email ou mot de passe incorrect.' });
+        }
+  
+        const token = jwt.sign({ userId: user.id }, 'votre_clé_secrète', { expiresIn: '1h' });
+  
+        res.json({ token });
+      } catch (error) {
+        console.error('Erreur lors de la connexion de l\'utilisateur :', error);
+        res.status(500).json({ error: 'Erreur lors de la connexion de l\'utilisateur.' });
+      }
+}
