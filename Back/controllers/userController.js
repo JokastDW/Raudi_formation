@@ -74,7 +74,7 @@ exports.Login = async (req, res) =>{
           return res.status(401).json({ error: 'Email ou mot de passe incorrect.' });
         }
   
-        const token = jwt.sign({ userId: user.id }, 'votre_clé_secrète', { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user.id }, process.env.SECREY_KEY, { expiresIn: '1h' });
   
         res.json({ token });
       } catch (error) {
