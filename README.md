@@ -1,7 +1,9 @@
 # Raudi_formation
-Projet en collaboration avec Steven BRAVO 
+Projet en collaboration avec Steven BRAVO et Beni MAMBI-GUÉRIN
 
 **Front Fonctionalité**
+Pages
+
 Accès invité
 Page d’accueil (Route « /accueil ») > Liste des modèles proposés
 Page détails modèle (Attention modification des options impossible)
@@ -60,3 +62,30 @@ commande => {
     acheté
     total
 }
+
+# TODO (Steven)
+*Intégrer la validation des données pour les modèles ? 
+https://sequelize.org/docs/v6/core-concepts/validations-and-constraints/#validators
+
+*Relations à valider
+>User - Commande
+User peut passer plusieurs Commande
+Une Commande est associée à un user
+
+>Modèle -Options
+Un modèle peut avoir plusieurs Options
+Une option peut etre assosiée à plusieurs Modèles
+
+>Commande-Modèle
+Une commande peut contenir plusieurs Modèles
+Un Modèle peut etre dans plusieurs Commandes
+
+>User - Modele
+User peut avoir plusieurs modèles
+Un Modèle peut être lié à plusieurs Users
+Est-ce qu'il est nécessaire de faire cette relation  sachant qu'il y a 
+User - Commande et Commande - Modèle ?
+
+*Table Commande
+Définir les foreignkey
+https://sequelize.org/docs/v6/other-topics/legacy/#foreign-keys
