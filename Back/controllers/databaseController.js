@@ -1,7 +1,7 @@
-const Command = require('./models/commandModel')
+const Command = require('../models/commandeModel')
 const Model = require('../models/modeleModel')
-const Option = require('./models/optionModel')
-const User = require('./models/userModel')
+const Option = require('../models/optionModel')
+const User = require('../models/userModel')
 const sequelize = require('../database/database')
 
 exports.createTableCommand= async(req, res)=>{

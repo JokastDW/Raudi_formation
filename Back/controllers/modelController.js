@@ -1,4 +1,4 @@
-const Model = require('../models/ModelModel')
+const Model = require('../models/modeleModel')
 
 exports.CreateModel = async(req,res)=>{
     let model = req.body

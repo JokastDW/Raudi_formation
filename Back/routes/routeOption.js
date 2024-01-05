@@ -1,10 +1,10 @@
 const express = require('express')
 const route = express.Router()
-const produitController = require('../controllers/produitController')
+const optionController = require('../controllers/optionController')
 
-route.post('/create', produitController.CreateProduct)
-route.put('/update/:id', produitController.UpdateProduct)
-route.get('/all', produitController.AllProducts)
-route.get('/prd/:id', produitController.ProductId)
+route.post('/create', optionController.CreateOption)
+route.put('/update/:id', optionController.UpdateOption)
+route.get('/all', optionController.AllOptions)
+route.get('/prd/:id', optionController.OptionId)
 
 module.exports = route

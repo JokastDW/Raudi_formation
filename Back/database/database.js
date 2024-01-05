@@ -2,7 +2,8 @@ const Sequelize = require('sequelize')
 
 const sequelize = new Sequelize('ipssi-s04_projet-raudi', 'root', '', {
     host: 'localhost',
-    dialect: 'mariadb'
+    dialect: 'mariadb',
+    port:3307
 })
 
 //Connexion à la BDD

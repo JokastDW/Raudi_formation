@@ -39,7 +39,7 @@ exports.CreateUser = async (req, res) => {
     }
 }
 
-exports.UpdateUserCreateUser = async(req, res)=>{
+exports.UpdateUser = async(req, res)=>{
     let idUser = parseInt(req.params.id)
     let UpdateUser = req.body
     
@@ -51,12 +51,12 @@ exports.UpdateUserCreateUser = async(req, res)=>{
     res.status(200).json(User)
 }
 
-exports.AllUserCreateUsers= async(req, res)=>{
+exports.AllUsers= async(req, res)=>{
     const users = await User.findAll()
     res.status(200).json(users)
 }
 
-exports.UserCreateUserId= async(req, res)=>{
+exports.UserId= async(req, res)=>{
     const users = await User.findByPk(parseInt(req.params.id))
     res.status(200).json(users)
 }

@@ -1,10 +1,10 @@
 const express = require('express')
 const route = express.Router()
-const produitController = require('../controllers/produitController')
+const userController = require('../controllers/userController')
 
-route.post('/create', produitController.CreateProduct)
-route.put('/update/:id', produitController.UpdateProduct)
-route.get('/all', produitController.AllProducts)
-route.get('/prd/:id', produitController.ProductId)
+route.post('/create', userController.CreateUser)
+route.put('/update/:id', userController.UpdateUser)
+route.get('/all', userController.AllUsers)
+route.get('/prd/:id', userController.UserId)
 
 module.exports = route

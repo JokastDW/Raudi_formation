@@ -3,9 +3,9 @@ const cors = require ('cors')
 
 const databaseRoute = require('./routes/databaseRoute')
 const commandRoute = require('./routes/routeCommand')
-const modelRoute = require('./routes/modelRoute')
-const optionRoute = require('./routes/optionRoute')
-const userRoute = require('./routes/userRoute')
+const modelRoute = require('./routes/routeModel')
+const optionRoute = require('./routes/routeOption')
+const userRoute = require('./routes/routeOption')
 const app = express()
 
 app.use(express.json())
