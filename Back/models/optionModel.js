@@ -1,4 +1,3 @@
-//TODO : Voir pour la validation des données
 const sequelize = require('../database/database');
 const { DataTypes } = require('sequelize');
 
@@ -11,7 +10,10 @@ const Option = sequelize.define('option', {
       },
     nom: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate :{
+            isAlpha:{msg : "Votre nom ne doit contenir que des lettres"}
+        }
     },
     description: {
         type: DataTypes.TEXT,

@@ -1,4 +1,3 @@
-//TODO : Voir pour la validation des données
 const sequelize = require('../database/database');
 const { DataTypes } = require('sequelize');
 const Commande = require('./commandeModel');
@@ -12,16 +11,25 @@ const User = sequelize.define('user', {
       },
     nom: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate :{
+            isAlpha:{msg : "Votre nom ne doit contenir que des lettres"}
+        }
     },
     prenom: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate :{
+            isAlpha:{msg : "Votre prénom ne doit contenir que des lettres"}
+        }
     },
     email: {
         type: DataTypes.STRING,
         unique: true,
-        allowNull: false
+        allowNull: false,
+        validate:{
+            isEmail:{msg:"Merci de saisir un email valide"}
+        }
     },
     password: {
         type: DataTypes.STRING,
@@ -30,7 +38,11 @@ const User = sequelize.define('user', {
     role: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue:'user'
+        defaultValue:'user',
+        validate :{
+            isIn : {args : [['user, comptable, admin']],
+            msg : "Choisir un rôle parmi les suivants : user, comptable, admin"}
+        }
     }
 }, {
     sequelize,

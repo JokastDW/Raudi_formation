@@ -64,22 +64,3 @@ commande => {
 }
 
 # TODO (Steven)
-*Intégrer la validation des données pour les modèles ? 
-https://sequelize.org/docs/v6/core-concepts/validations-and-constraints/#validators
-
-*Relations à valider
->User - Commande
-User peut passer plusieurs Commande (hasMany) foreign key >
-Une Commande est associée à un user (belongsTo) foreign key >
-
->Modèle - Options
-Un modèle peut avoir plusieurs Options (belongsToMany) through
-Une option peut etre assosiée à plusieurs Modèles (belongsToMany) through
-
->Modèle - Commande
-Une commande peut contenir plusieurs Modèles (belongsToMany) through
-Un Modèle peut etre dans plusieurs Commandes (belongsToMany) through
-
-*Table Commande
-Définir les foreignkey
-https://sequelize.org/docs/v6/other-topics/legacy/#foreign-keys

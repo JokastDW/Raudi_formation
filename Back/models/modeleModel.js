@@ -1,10 +1,7 @@
-//TODO : Voir pour la validation des données
 const sequelize = require('../database/database');
 const { DataTypes } = require('sequelize');
 const Option = require('./optionModel');
 const Commande = require('./commandeModel');
-// importez les models avec qui lié :
-// const Produit = require('./produitModel')
 
 const Modele = sequelize.define('modele', {
     id: {
@@ -15,13 +12,19 @@ const Modele = sequelize.define('modele', {
       },
     nom: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate :{
+            isAlpha:{msg : "Votre nom ne doit contenir que des lettres"}
+        }
     },
-    //TODO : type - diesel, essence, electrique, hybride
     moteur: {
         type: DataTypes.STRING,
         unique: true,
-        allowNull: false
+        allowNull: false,
+        validate :{
+            isIn : {args : [['diesel', 'essence', 'electrique', 'hybride']],
+            msg : "Le type de moteur doit être l'un des suivants : diesel, essence, electrique, hybride"}
+        }
     },
     nb_portes: {
         type: DataTypes.INTEGER,
@@ -31,10 +34,13 @@ const Modele = sequelize.define('modele', {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    //TODO : type - citadine, monospace, berline, SUV, 4x4
     taille: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate :{
+            isIn : {args : [['citadine', 'monospace', 'berline', 'SUV', '4x4']],
+            msg : "La taille doit être l'une des suivants : citadine, monospace, berline, SUV, 4x4"}
+        }
     },
     prix: {
         type: DataTypes.INTEGER,
