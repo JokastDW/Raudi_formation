@@ -1,8 +1,6 @@
 //TODO : Voir pour la validation des données
 const sequelize = require('../database/database');
 const { DataTypes } = require('sequelize');
-// importez les models avec qui lié :
-// const Produit = require('./produitModel')
 
 const Option = sequelize.define('option', {
     id: {
@@ -29,9 +27,5 @@ const Option = sequelize.define('option', {
     sequelize,
     freezeTableName: true
   });
-
-//RELATION ICI:
-// Etagere.hasMany(Produit, { foreignKey: 'etagereId'})
-// Produit.belongsTo(Etagere, { foreignKey: 'etagereId'})
 
 module.exports = Option;

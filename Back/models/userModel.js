@@ -1,8 +1,7 @@
 //TODO : Voir pour la validation des données
 const sequelize = require('../database/database');
 const { DataTypes } = require('sequelize');
-// importez les models avec qui lié :
-// const Produit = require('./produitModel')
+const Commande = require('./commandeModel');
 
 const User = sequelize.define('user', {
     id: {
@@ -38,8 +37,10 @@ const User = sequelize.define('user', {
     freezeTableName: true
   });
 
-//RELATION ICI:
-// Etagere.hasMany(Produit, { foreignKey: 'etagereId'})
-// Produit.belongsTo(Etagere, { foreignKey: 'etagereId'})
+// User - Commande (Relation OneToMany)
+// User peut passer plusieurs Commande (hasMany)
+// Une Commande est associée à un user (belongsTo) 
+User.hasMany(Commande, {foreignKey:'id_user'})
+Commande.belongsTo(User, {foreignKey: 'id_user'})
 
 module.exports = User;

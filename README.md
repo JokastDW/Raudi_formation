@@ -38,7 +38,7 @@ user => {
     prenom
     email
     mdp = hash
-    role = comptable, role_admin, role_user
+    role = comptable, admin, user
 }
 
 modele => {
@@ -59,7 +59,7 @@ option => {
 commande => {
     id_user
     id_modele
-    acheté
+    finalisee
     total
 }
 
@@ -69,22 +69,16 @@ https://sequelize.org/docs/v6/core-concepts/validations-and-constraints/#validat
 
 *Relations à valider
 >User - Commande
-User peut passer plusieurs Commande
-Une Commande est associée à un user
+User peut passer plusieurs Commande (hasMany) foreign key >
+Une Commande est associée à un user (belongsTo) foreign key >
 
->Modèle -Options
-Un modèle peut avoir plusieurs Options
-Une option peut etre assosiée à plusieurs Modèles
+>Modèle - Options
+Un modèle peut avoir plusieurs Options (belongsToMany) through
+Une option peut etre assosiée à plusieurs Modèles (belongsToMany) through
 
->Commande-Modèle
-Une commande peut contenir plusieurs Modèles
-Un Modèle peut etre dans plusieurs Commandes
-
->User - Modele
-User peut avoir plusieurs modèles
-Un Modèle peut être lié à plusieurs Users
-Est-ce qu'il est nécessaire de faire cette relation  sachant qu'il y a 
-User - Commande et Commande - Modèle ?
+>Modèle - Commande
+Une commande peut contenir plusieurs Modèles (belongsToMany) through
+Un Modèle peut etre dans plusieurs Commandes (belongsToMany) through
 
 *Table Commande
 Définir les foreignkey
