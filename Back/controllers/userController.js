@@ -1,18 +1,18 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt')
 const User = require('../models/userModel')
 
 exports.CreateUser = async (req, res) => {
     try {
-        const { nom, prenom, email, password, role } = req.body;
+        const {nom, prenom, email, password, role} = req.body
 
         // Vérifier si l'utilisateur existe déjà
-        const existingUser = await User.findOne({ where: { email } });
+        const existingUser = await User.findOne({where: {email}})
         if (existingUser) {
-            return res.status(400).json({ error: 'Cet e-mail est déjà utilisé.' });
+            return res.status(400).json({error: 'Cet e-mail est déjà utilisé.'})
         }
 
         // Hachage du mot de passe avec bcrypt
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const hashedPassword = await bcrypt.hash(password, 10)
 
         // Créer l'utilisateur dans la base de données
         const newUser = await User.create({
@@ -20,8 +20,8 @@ exports.CreateUser = async (req, res) => {
             prenom,
             email,
             password: hashedPassword,
-            role
-        });
+            role,
+        })
 
         // Ne renvoyer que les informations nécessaires (sans le mot de passe)
         const userResponse = {
@@ -29,56 +29,89 @@ exports.CreateUser = async (req, res) => {
             nom: newUser.nom,
             prenom: newUser.prenom,
             email: newUser.email,
-            role: newUser.role
-        };
+            role: newUser.role,
+        }
 
-        return res.status(201).json(userResponse);
+        return res.status(201).json(userResponse)
     } catch (error) {
-        console.error('Erreur lors de la création de l\'utilisateur :', error);
-        return res.status(500).json({ error: 'Erreur lors de la création de l\'utilisateur.' });
+        console.error("Erreur lors de la création de l'utilisateur :", error)
+        return res
+            .status(500)
+            .json({error: "Erreur lors de la création de l'utilisateur."})
     }
 }
 
-exports.UpdateUser = async(req, res)=>{
+exports.UpdateUser = async (req, res) => {
     let idUser = parseInt(req.params.id)
     let UpdateUser = req.body
-    
-    let User = await User.update({nom: UpdateUser.nom},{
+
+    if (req.body.password) {
+        const hashedPassword = await bcrypt.hash(req.body.password, 10)
+        UpdateUser.password = hashedPassword
+    }
+
+    let update = await User.update(UpdateUser, {
         where: {
-            id: idUser
-        }
+            id: idUser,
+        },
     })
-    res.status(200).json(User)
+    if (update) {
+        res.status(200).json({msg: 'Mise à jour réalisée.'})
+    } else {
+        res.status(500).json({error: 'Erreur lors de la mise à jour.'})
+    }
 }
 
-exports.AllUsers= async(req, res)=>{
+exports.AllUsers = async (req, res) => {
     const users = await User.findAll()
     res.status(200).json(users)
 }
 
-exports.UserId= async(req, res)=>{
+exports.UserId = async (req, res) => {
     const users = await User.findByPk(parseInt(req.params.id))
     res.status(200).json(users)
 }
 
-exports.Login = async (req, res) =>{
+exports.Login = async (req, res) => {
     try {
-        const { email, password } = req.body;
-        const user = await User.findOne({ where: { email } });
+        const {email, password} = req.body
+        const user = await User.findOne({where: {email}})
         if (!user) {
-          return res.status(401).json({ error: 'Email ou mot de passe incorrect.' });
+            return res
+                .status(401)
+                .json({error: 'Email ou mot de passe incorrect.'})
         }
-  
-        const passwordMatch = await bcrypt.compare(password, user.password);
+
+        const passwordMatch = await bcrypt.compare(password, user.password)
         if (!passwordMatch) {
-          return res.status(401).json({ error: 'Email ou mot de passe incorrect.' });
+            return res
+                .status(401)
+                .json({error: 'Email ou mot de passe incorrect.'})
         }
-  
-        const token = jwt.sign({ userId: user.id }, process.env.SECREY_KEY, { expiresIn: '1h' });
-  
-        res.json({ token });
-      } catch (error) {
-        console.error('Erreur lors de la connexion de l\'utilisateur :', error);
-        res.status(500).json({ error: 'Erreur lors de la connexion de l\'utilisateur.' });
-      }
+
+        const token = jwt.sign({userId: user.id}, process.env.SECREY_KEY, {
+            expiresIn: '1h',
+        })
+
+        res.json({token})
+    } catch (error) {
+        console.error("Erreur lors de la connexion de l'utilisateur :", error)
+        res.status(500).json({
+            error: "Erreur lors de la connexion de l'utilisateur.",
+        })
+    }
+}
+
+exports.DeleteUser = async (req, res) => {
+    try {
+        const idUser = parseInt(req.params.id)
+        const deleteUser = await User.destroy({
+            where: {
+                id: idUser,
+            },
+        })
+        res.status(200).json({msg: "Suppression de l'utilisateur réalisé."})
+    } catch (error) {
+        res.status(500).json({err: error})
+    }
 }

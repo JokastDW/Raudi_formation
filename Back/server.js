@@ -5,7 +5,7 @@ const databaseRoute = require('./routes/databaseRoute')
 const commandRoute = require('./routes/routeCommand')
 const modelRoute = require('./routes/routeModel')
 const optionRoute = require('./routes/routeOption')
-const userRoute = require('./routes/routeOption')
+const userRoute = require('./routes/routeUser.js')
 const app = express()
 
 app.use(express.json())

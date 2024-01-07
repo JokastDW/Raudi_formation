@@ -25,7 +25,7 @@ exports.createAllTable = async(req, res)=>{
     await sequelize.sync()
     const modele = await initiateModels()
     if(modele){
-        res.status(200).json({warning : "Tables créées, mais erreur à l'initialisation des modèles."})
+        res.status(200).json({warning : "Tables créées, mais erreur à l'ajout des modèles de base."})
     } else {
     res.status(200).json('toutes les tables sont créer')
     }
