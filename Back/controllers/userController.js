@@ -39,7 +39,7 @@ exports.CreateUser = async (req, res) => {
 }
 
 exports.UpdateUser = async (req, res) => {
-    let idUser = parseInt(req.params.id)
+    let idUser = req.params.id
     let UpdateUser = req.body
 
     if (req.body.password) {
@@ -101,7 +101,7 @@ exports.Login = async (req, res) => {
 
 exports.DeleteUser = async (req, res) => {
     try {
-        const idUser = parseInt(req.params.id)
+        const idUser = req.params.id
         const deleteUser = await User.destroy({
             where: {
                 id: idUser,

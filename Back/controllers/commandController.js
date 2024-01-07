@@ -8,7 +8,7 @@ exports.CreateCom = async (req, res) => {
 }
 
 exports.UpdateCom = async (req, res) => {
-    let idCom = parseInt(req.params.id)
+    let idCom = req.params.id
     let UpdateCommand = req.body
 
     let command = await Command.update(UpdateCommand, {
