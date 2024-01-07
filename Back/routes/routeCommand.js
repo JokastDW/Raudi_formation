@@ -5,6 +5,7 @@ const commandController = require('../controllers/commandController')
 route.post('/create', commandController.CreateCom)
 route.put('/update/:id', commandController.UpdateCom)
 route.get('/all', commandController.AllCommands)
-route.get('/prd/:id', commandController.ComId)
+route.get('/:id', commandController.ComId)
+route.delete('/delete/:id', commandController.DeleteCom)
 
 module.exports = route
