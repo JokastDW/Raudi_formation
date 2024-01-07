@@ -8,7 +8,7 @@ exports.CreateUser = async (req, res) => {
         // Vérifier si l'utilisateur existe déjà
         const existingUser = await User.findOne({where: {email}})
         if (existingUser) {
-            return res.status(400).json({error: 'Cet e-mail est déjà utilisé.'})
+            return res.status(400).json('Cet e-mail est déjà utilisé.')
         }
 
         // Hachage du mot de passe avec bcrypt
@@ -32,12 +32,9 @@ exports.CreateUser = async (req, res) => {
             role: newUser.role,
         }
 
-        return res.status(201).json(userResponse)
+        res.status(201).json(userResponse)
     } catch (error) {
-        console.error("Erreur lors de la création de l'utilisateur :", error)
-        return res
-            .status(500)
-            .json({error: "Erreur lors de la création de l'utilisateur."})
+        res.status(500).json("Erreur lors de la création de l'utilisateur.")
     }
 }
 
@@ -56,9 +53,9 @@ exports.UpdateUser = async (req, res) => {
         },
     })
     if (update) {
-        res.status(200).json({msg: 'Mise à jour réalisée.'})
+        res.status(200).json('Mise à jour réalisée.')
     } else {
-        res.status(500).json({error: 'Erreur lors de la mise à jour.'})
+        res.status(500).json('Erreur lors de la mise à jour.')
     }
 }
 
@@ -68,7 +65,7 @@ exports.AllUsers = async (req, res) => {
 }
 
 exports.UserId = async (req, res) => {
-    const users = await User.findByPk(parseInt(req.params.id))
+    const users = await User.findByPk(req.params.id)
     res.status(200).json(users)
 }
 
@@ -110,8 +107,8 @@ exports.DeleteUser = async (req, res) => {
                 id: idUser,
             },
         })
-        res.status(200).json({msg: "Suppression de l'utilisateur réalisé."})
+        res.status(200).json("Suppression de l'utilisateur réalisée.")
     } catch (error) {
-        res.status(500).json({err: error})
+        res.status(500).json(error)
     }
 }

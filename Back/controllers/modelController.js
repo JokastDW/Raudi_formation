@@ -16,9 +16,9 @@ exports.UpdateModel = async (req, res) => {
                 id: idM,
             },
         })
-        res.status(200).json({msg: 'Modèle mis à jour.'})
+        res.status(200).json('Modèle mis à jour.')
     } catch (error) {
-        res.status(500).json({err: error})
+        res.status(500).json(error)
     }
 }
 
@@ -40,8 +40,8 @@ exports.DeleteModel = async (req, res) => {
                 id: idModel,
             },
         })
-        res.status(200).json({msg: 'Suppression du modèle réalisé.'})
+        res.status(200).json('Suppression du modèle réalisé.')
     } catch (error) {
-        res.status(500).json({err: error})
+        res.status(500).json(error)
     }
 }

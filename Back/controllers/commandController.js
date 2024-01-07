@@ -25,20 +25,20 @@ exports.AllCommands = async (req, res) => {
 }
 
 exports.ComId = async (req, res) => {
-    const com = await Command.findByPk(parseInt(req.params.id))
+    const com = await Command.findByPk(req.params.id)
     res.status(200).json(com)
 }
 
 exports.DeleteCom = async (req, res) => {
     try {
-        const idUser = parseInt(req.params.id)
+        const idCom = req.params.id
         const deleteCommand = await Command.destroy({
             where: {
-                id: idUser,
+                id: idCom,
             },
         })
-        res.status(200).json({msg: 'Suppression de la commande réalisée.'})
+        res.status(200).json('Suppression de la commande réalisée.')
     } catch (error) {
-        res.status(500).json({err: error})
+        res.status(500).json(error)
     }
 }
