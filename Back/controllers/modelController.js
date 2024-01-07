@@ -1,31 +1,47 @@
 const Model = require('../models/modeleModel')
 
-exports.CreateModel = async(req,res)=>{
-    let model = req.body
-    let result = await Model.create(model)
-    result.nom = "R1"
-    result.save()
-    res.status(201).json(result.nom)
+exports.CreateModel = async (req, res) => {
+    const modele = req.body
+    const result = await Model.create(modele)
+    res.status(201).json(result)
 }
 
-exports.UpdateModel = async(req, res)=>{
-    let idM = parseInt(req.params.id)
-    let UpdateModel = req.body
-    
-    let model = await Model.update({nom: UpdateModel.nom},{
-        where: {
-            id: idM
-        }
-    })
-    res.status(200).json(model)
+exports.UpdateModel = async (req, res) => {
+    try {
+        let idM = req.params.id
+        let UpdateModel = req.body
+
+        let model = await Model.update(UpdateModel, {
+            where: {
+                id: idM,
+            },
+        })
+        res.status(200).json({msg: 'Modèle mis à jour.'})
+    } catch (error) {
+        res.status(500).json({err: error})
+    }
 }
 
-exports.AllModels= async(req, res)=>{
+exports.AllModels = async (req, res) => {
     const mod = await Model.findAll()
     res.status(200).json(mod)
 }
 
-exports.ModelId= async(req, res)=>{
-    const mod = await Model.findByPk(parseInt(req.params.id))
+exports.ModelId = async (req, res) => {
+    const mod = await Model.findByPk(req.params.id)
     res.status(200).json(mod)
+}
+
+exports.DeleteModel = async (req, res) => {
+    try {
+        const idModel = req.params.id
+        const deleteModel = await Model.destroy({
+            where: {
+                id: idModel,
+            },
+        })
+        res.status(200).json({msg: 'Suppression du modèle réalisé.'})
+    } catch (error) {
+        res.status(500).json({err: error})
+    }
 }
