@@ -24,6 +24,23 @@ exports.AllCommands = async (req, res) => {
     res.status(200).json(com)
 }
 
+exports.TrueCommands = async (req, res) => {
+    try {
+      // Utilisez la méthode findAll avec une clause where pour filtrer les commandes
+      const trueCommands = await Command.findAll({
+        where: {
+          finalisee: true, // Remplacez 'booleanField' par le nom réel de votre champ booléen
+        },
+      });
+  
+      // Renvoyez les commandes filtrées en tant que réponse JSON
+      res.status(200).json(trueCommands);
+    } catch (error) {
+      console.error('Erreur lors de la récupération des commandes :', error);
+      res.status(500).json({ error: 'Erreur lors de la récupération des commandes.' });
+    }
+  };
+
 exports.ComId = async (req, res) => {
     const com = await Command.findByPk(req.params.id)
     res.status(200).json(com)

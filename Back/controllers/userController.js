@@ -34,7 +34,7 @@ exports.CreateUser = async (req, res) => {
 
         res.status(201).json(userResponse)
     } catch (error) {
-        res.status(500).json("Erreur lors de la création de l'utilisateur.")
+        res.status(500).json(error)
     }
 }
 
@@ -98,6 +98,37 @@ exports.Login = async (req, res) => {
         })
     }
 }
+
+exports.Register = async (req, res) => {
+    try {
+      const { username, email, password } = req.body;
+  
+      // Vérifiez si l'utilisateur avec cet email existe déjà
+      const existingUser = await User.findOne({ where: { email } });
+      if (existingUser) {
+        return res.status(400).json({ error: 'Cet email est déjà utilisé.' });
+      }
+  
+      // Hachez le mot de passe
+      const hashedPassword = await bcrypt.hash(password, 10);
+  
+      // Créez un nouvel utilisateur dans la base de données
+      const newUser = await User.create({
+        username,
+        email,
+        password: hashedPassword,
+      });
+  
+      // Générez un jeton JWT pour l'utilisateur nouvellement enregistré
+      const token = jwt.sign({ userId: newUser.id }, process.env.SECREY_KEY, { expiresIn: '1h' });
+  
+      // Renvoyez le jeton dans la réponse
+      res.json({ token });
+    } catch (error) {
+      console.error('Erreur lors de l\'inscription de l\'utilisateur :', error);
+      res.status(500).json({ error: 'Erreur lors de l\'inscription de l\'utilisateur.' });
+    }
+  };
 
 exports.DeleteUser = async (req, res) => {
     try {

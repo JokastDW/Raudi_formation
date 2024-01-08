@@ -23,6 +23,6 @@ module.exports = {
         },
     open: true,
     hot: true,
-    port: 8001,
+    port: 8002,
     }
 };
