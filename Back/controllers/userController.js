@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt')
 const User = require('../models/userModel')
+const jwt = require('jsonwebtoken')
+require('dotenv').config()
 
 exports.CreateUser = async (req, res) => {
     try {
@@ -72,7 +74,7 @@ exports.UserId = async (req, res) => {
 exports.Login = async (req, res) => {
     try {
         const {email, password} = req.body
-        const user = await User.findOne({where: {email}})
+        const user = await User.findOne({where: {email: email}})
         if (!user) {
             return res
                 .status(401)
@@ -90,7 +92,7 @@ exports.Login = async (req, res) => {
             expiresIn: '1h',
         })
 
-        res.json({token})
+        res.status(200).json({token})
     } catch (error) {
         console.error("Erreur lors de la connexion de l'utilisateur :", error)
         res.status(500).json({
@@ -101,36 +103,40 @@ exports.Login = async (req, res) => {
 
 exports.Register = async (req, res) => {
     try {
-      const {nom, prenom, email, password } = req.body;
-  
-      // Vérifiez si l'utilisateur avec cet email existe déjà
-      const existingUser = await User.findOne({ where: { email } });
-      if (existingUser) {
-        return res.status(400).json({ error: 'Cet email est déjà utilisé.' });
-      }
-  
-      // Hachez le mot de passe
-      const hashedPassword = await bcrypt.hash(password, 10);
-  
-      // Créez un nouvel utilisateur dans la base de données
-      const newUser = await User.create({
-        nom,
-        prenom,
-        email,
-        password: hashedPassword,
-        role:"user",
-      });
-  
-      // Générez un jeton JWT pour l'utilisateur nouvellement enregistré
-      const token = jwt.sign({ userId: newUser.id }, process.env.SECREY_KEY, { expiresIn: '1h' });
-  
-      // Renvoyez le jeton dans la réponse
-      res.json({ token });
+        const {nom, prenom, email, password} = req.body
+
+        // Vérifiez si l'utilisateur avec cet email existe déjà
+        const existingUser = await User.findOne({where: {email}})
+        if (existingUser) {
+            return res.status(400).json({error: 'Cet email est déjà utilisé.'})
+        }
+
+        // Hachez le mot de passe
+        const hashedPassword = await bcrypt.hash(password, 10)
+
+        // Créez un nouvel utilisateur dans la base de données
+        const newUser = await User.create({
+            nom,
+            prenom,
+            email,
+            password: hashedPassword,
+            role: 'user',
+        })
+
+        // Générez un jeton JWT pour l'utilisateur nouvellement enregistré
+        const token = jwt.sign({userId: newUser.id}, process.env.SECREY_KEY, {
+            expiresIn: '1h',
+        })
+
+        // Renvoyez le jeton dans la réponse
+        res.json({token})
     } catch (error) {
-      console.error('Erreur lors de l\'inscription de l\'utilisateur :', error);
-      res.status(500).json({ error: 'Erreur lors de l\'inscription de l\'utilisateur.' });
+        console.error("Erreur lors de l'inscription de l'utilisateur :", error)
+        res.status(500).json({
+            error: "Erreur lors de l'inscription de l'utilisateur.",
+        })
     }
-  };
+}
 
 exports.DeleteUser = async (req, res) => {
     try {
