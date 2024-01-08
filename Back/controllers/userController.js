@@ -101,7 +101,7 @@ exports.Login = async (req, res) => {
 
 exports.Register = async (req, res) => {
     try {
-      const { username, email, password } = req.body;
+      const {nom, prenom, email, password } = req.body;
   
       // Vérifiez si l'utilisateur avec cet email existe déjà
       const existingUser = await User.findOne({ where: { email } });
@@ -114,9 +114,11 @@ exports.Register = async (req, res) => {
   
       // Créez un nouvel utilisateur dans la base de données
       const newUser = await User.create({
-        username,
+        nom,
+        prenom,
         email,
         password: hashedPassword,
+        role:"user",
       });
   
       // Générez un jeton JWT pour l'utilisateur nouvellement enregistré
