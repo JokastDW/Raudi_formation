@@ -24,7 +24,7 @@ exports.AllCommands = async (req, res) => {
     res.status(200).json(com)
 }
 
-exports.TrueCommands = async (req, res) => {
+exports.Historic = async (req, res) => {
     try {
       // Utilisez la méthode findAll avec une clause where pour filtrer les commandes
       const trueCommands = await Command.findAll({
@@ -38,6 +38,30 @@ exports.TrueCommands = async (req, res) => {
     } catch (error) {
       console.error('Erreur lors de la récupération des commandes :', error);
       res.status(500).json({ error: 'Erreur lors de la récupération des commandes.' });
+    }
+  };
+
+  
+exports.SortByMonths = async (req, res) => {
+    try {
+      // Utilisez la méthode findAll avec une clause group pour regrouper par date de création
+      const groupedCommands = await Command.findAll({
+        attributes: [
+          'createdAt',
+          [sequelize.fn('COUNT', sequelize.col('*')), 'commandCount'],
+        ],
+        where: {
+          booleanField: true, // Remplacez 'booleanField' par le nom réel de votre champ booléen
+        },
+        group: ['createdAt'],
+        order: [['createdAt', 'DESC']], // Optionnel : tri par date de création décroissante
+      });
+  
+      // Renvoyez les commandes regroupées en tant que réponse JSON
+      res.status(200).json(groupedCommands);
+    } catch (error) {
+      console.error('Erreur lors de la récupération des commandes groupées :', error);
+      res.status(500).json({ error: 'Erreur lors de la récupération des commandes groupées.' });
     }
   };
 
