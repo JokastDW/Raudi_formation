@@ -32,10 +32,10 @@ getUser = async (contenu) => {
         const response = await axios.get('http://localhost:8001/user/all')
         console.log(response.data)
         //contenu.textContent = response.data[0].nom
-        contenu.innerHTML = `<h2>${response.data[0].nom}</h2>`
+        contenu.innerHTML = `<td>${response.data[0].nom} ${response.data[0].prenom} ${response.data[0].email}</td>`
     } catch (error) {
         console.error(error)
     }
 }
-let contenu = document.getElementById('test')
+let contenu = document.getElementById('data')
 getUser(contenu)
